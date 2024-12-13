@@ -3,7 +3,7 @@ import credentialProvider from "next-auth/providers/credentials"
 import UserModel from "./components/utils/models/User"
 
 
-export const {auth,signIn,singOut,handlers:{GET,POST}}=NextAuth({
+export const {auth,signIn,signOut,handlers:{GET,POST}}=NextAuth({
     providers:[
         credentialProvider({
             name:'credentials',
@@ -21,6 +21,25 @@ export const {auth,signIn,singOut,handlers:{GET,POST}}=NextAuth({
         })
 
     ],
-    secret:process.env.SECRET_KEY
+    secret:process.env.SECRET_KEY,
+    callbacks:{
+        async jwt({token,user}){
+            if(user){
+                token.userId=user.id;
+                token.username=user.username;
+                token.role=user.role;
+                token.email=user.email
+            }
+
+            return token
+        },
+        async session({session,token}){
+            session.userId=token.userId;
+            session.username=token.name;
+            session.role=token.role;
+            session.email=token.email;
+            return session
+        }
+    }
 
 })

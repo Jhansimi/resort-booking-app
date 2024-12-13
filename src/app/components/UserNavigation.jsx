@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-const UserNavigation = () => {
+const UserNavigation = ({userName}) => {
   return (
     
       <div className='navSection'>
@@ -21,7 +21,7 @@ const UserNavigation = () => {
     </Link>
     <p>Welcome: 
       <span style={{color:'yellow', marginLeft:'5px', fontSize:'1.2rem', border:'none'}}>
-     Jhansi
+   {userName}
       </span>
        </p>
     <Link href="/api/auth/signout" className='link'>
